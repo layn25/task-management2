@@ -26,7 +26,8 @@ Route::group(['middleware' => 'auth', 'prefix' => '/'], function () {
         Route::get('/', [ProjectController::class, 'index'])->name('index');
         Route::get('/create', [ProjectController::class, 'create'])->name('create');
         Route::post('/store', [ProjectController::class, 'store'])->name('store');
-        Route::get('/update/{id}', [ProjectController::class, 'update'])->name('update');
+        Route::put('/update/{id}', [ProjectController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [ProjectController::class, 'delete'])->name('delete');
         Route::get('/detail/{id}', [ProjectController::class, 'detail'])->name('detail');
         Route::post('/storeTask', [ProjectController::class, 'storeTask'])->name('storeTask');
         Route::put('/editTask/{id}', [ProjectController::class, 'editTask'])->name('editTask');

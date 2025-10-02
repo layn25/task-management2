@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     protected $guarded = [];
+    protected $primaryKey = 'project_id';
 
     public function Owner()
     {

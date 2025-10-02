@@ -30,34 +30,51 @@
 
     <div class="card-body">
         @if (Auth::user()->id == $data->owner_id)
-        <div class="mb-3">
-            <label for="nama_tugas">Nama</label>
-            <input type="text" class="form-control" value="{{ $data->name }}" disabled>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label class="form-label">Tanggal Mulai</label>
-                <input type="text" class="form-control" value="{{ \Carbon\Carbon::parse($data->start_date)->format('d M Y') }}"  disabled>
-            </div>
-            <div class="col-md-6">
-                <label class="form-label">Tanggal Selesai</label>
-                <input type="text" class="form-control" value="{{ \Carbon\Carbon::parse($data->end_date)->format('d M Y') }}"  disabled>
-            </div>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Owner</label>
-            <input type="text"class="form-control" value="{{ $data->Owner->nama }}" disabled>
-        </div>
+        <form action="{{ route('project.update', $data->project_id) }}" method="POST">
+            @csrf
+            @method('PUT')
 
-        <div class="mb-3">
-            <label class="form-label">Deskripsi Penugasan</label>
-            <textarea class="form-control" rows="3" disabled>{{ $data->deskripsi }}</textarea>
-        </div>
+            <div class="mb-3">
+                <label for="nama_tugas">Nama</label>
+                <input type="text" name="name" class="form-control" value="{{ $data->name }}" required>
+            </div>
 
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Tanggal Mulai</label>
+                    <input type="date" name="start_date" class="form-control" value="{{ $data->start_date }}" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Tanggal Selesai</label>
+                    <input type="date" name="end_date" class="form-control" value="{{ $data->end_date }}" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Owner</label>
+                <select name="owner_id" class="form-select" disabled>
+                    @foreach ($users as $user)
+                        <option value="{{ $user->id }}" {{ $data->owner_id == $user->id ? 'selected' : '' }}>
+                            {{ $user->nama }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Deskripsi Penugasan</label>
+                <textarea name="description" class="form-control" rows="3" required>{{ $data->description }}</textarea>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+        </form>
         <hr class="my-3"/>
         @endif
         {{-- Daftar Tasks --}}
     <h5 class="mb-3">Daftar Tasks</h5>
+    @if (Auth::user()->id == $data->owner_id)
     <div class="row mb-3 ">
         <div class="col-md-10">
             <div class="position-relative">
@@ -74,6 +91,19 @@
             </button>
         </div>
     </div>
+    @else
+    <div class="row mb-3 ">
+        <div class="col-md-12">
+            <div class="position-relative">
+                <input type="text" class="form-control" id="projectInput" placeholder="Cari project..."
+                    style="padding-right: 40px;">
+                <button class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3" type="button">
+                    <i class="bi bi-search text-muted"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
     <table id="taskDataTable" class="table table-striped table-hover">
         <thead>
             <tr>
@@ -104,7 +134,7 @@
                     </td>
                     <td>
                         <span class="badge 
-                            @if($task->priority=='low') bg-secondary
+                            @if($task->priority=='low') bg-success
                             @elseif($task->priority=='medium') bg-primary
                             @elseif($task->priority=='high') bg-warning
                             @elseif($task->priority=='urgent') bg-danger

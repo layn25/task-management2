@@ -14,7 +14,13 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $data = Project::all();
+        $userId = Auth::id();
+        $data = Project::where('owner_id', $userId) // project yang dia buat
+        ->orWhereHas('Task', function ($q) use ($userId) {
+            $q->where('assignee_id', $userId); // project yang ada task di-assign ke dia
+        })
+        ->with(['Task', 'Owner']) // biar eager load, ngirit query
+        ->get();
         return view('pages.project.index', compact('data'));
     }
     public function detail($id)
@@ -55,7 +61,46 @@ class ProjectController extends Controller
             return redirect()->back()->with('error', $th->getMessage());
         }
     }
+    public function update(Request $request, $id)
+    {
+        try {
+            $request->validate([
+                'name'        => 'required|string|max:150',
+                'description' => 'nullable|string',
+                'start_date'  => 'required|date',
+                'end_date'    => 'required|date|after_or_equal:start_date',
+            ]);
 
+            $project = Project::where('project_id', $id)->firstOrFail();
+
+            $project->name         = $request->name;
+            $project->description  = $request->description;
+            $project->start_date   = $request->start_date;
+            $project->end_date     = $request->end_date;
+            $project->staff_updated = Auth::id();
+
+            $project->save();
+
+            return redirect()->back()->with('success', 'Project berhasil diperbarui!');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', $th->getMessage());
+        }
+    }
+    public function delete($id)
+    {
+        try {
+            $project = Project::where('project_id', $id)->firstOrFail();
+
+            if (Auth::id() !== $project->owner_id) {
+                return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk menghapus project ini.');
+            }
+            $project->delete();
+
+            return redirect()->back()->with('success', 'Project dan semua task terkait berhasil dihapus!');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', $th->getMessage());
+        }
+    }
 
 
     public function storeTask(Request $request)
@@ -106,7 +151,6 @@ class ProjectController extends Controller
                 'start_date'  => 'required|date',
                 'end_date'    => 'required|date|after_or_equal:start_date',
                 'assignee_id' => 'required|exists:users,id',
-                'reporter_id' => 'required|exists:users,id',
                 'percentage'  => 'required|integer|min:0|max:100',
             ]);
 
@@ -118,7 +162,6 @@ class ProjectController extends Controller
                 'start_date'    => $request->start_date,
                 'end_date'      => $request->end_date,
                 'assignee_id'   => $request->assignee_id,
-                'reporter_id'   => $request->reporter_id,
                 'percentage'    => $request->percentage,
                 'staff_updated' => Auth::id(),
             ]);

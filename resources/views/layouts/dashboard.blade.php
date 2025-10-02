@@ -43,11 +43,6 @@
                         <hr>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="bi bi-person me-2"></i> <span class="nav-item-text">Profile</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link text-danger" href="{{ route('logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     <i class="bi bi-box-arrow-right me-2"></i> <span class="nav-item-text">Sign Out</span>

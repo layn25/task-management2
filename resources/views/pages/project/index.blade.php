@@ -91,21 +91,17 @@
                                         <i class="bi bi-eye me-2"></i>Detail
                                     </a>
                                 </li>
-                                {{-- <li>
-                                    <a class="dropdown-item" href="{{ route('projects.edit', $p->project_id) }}">
-                                        <i class="bi bi-pencil me-2"></i>Ubah
-                                    </a>
-                                </li>
-                                <li><hr class="dropdown-divider"></li>
+                                @if (Auth::user()->id == $p->owner_id)
                                 <li>
-                                    <form action="{{ route('projects.destroy', $p->project_id) }}" method="POST" id="delete-{{ $p->project_id }}">
+                                    <form action="{{ route('project.delete', $p->project_id) }}" method="POST" id="delete-{{ $p->project_id }}">
                                         @csrf
                                         @method('DELETE')
                                         <button type="button" class="dropdown-item text-danger" onclick="alertConfirm(this)" data-id="{{ $p->project_id }}">
                                             <i class="bi bi-trash me-2"></i>Hapus
                                         </button>
                                     </form>
-                                </li> --}}
+                                </li>
+                                @endif
                             </ul>
                         </div>
                     </td>
