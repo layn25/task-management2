@@ -36,20 +36,8 @@
             <nav class="card">
                 <div class="card-body justify-content-between d-flex flex-column">
                     <ul class="nav flex-column">
-                        @if (Auth::user()->roles == 'admin')
-                            <x-sidebar-list-item :icon="'bi-grid'" :title="'Dashboard'" :route="'home'" :route-is="'home'" />
-                            <x-sidebar-list-item :icon="'bi-inbox'" :title="'Penugasan'" :route="'penugasan.index'" :route-is="'penugasan.*'" />
-                            <x-sidebar-list-item :icon="'bi-people'" :title="'Users'" :route="'users.index'" :route-is="'users.*'" />
-                            {{-- <x-sidebar-list-item :icon="'bi-clipboard-check'" :title="'Kehadiran'" :route="'kehadiran.index'" :route-is="'kehadiran.*'" /> --}}
-                            <x-sidebar-list-item :icon="'bi-pause-circle'" :title="'Izin'" :route="'izin.index'" :route-is="'izin.*'" />
-                            <x-sidebar-list-item :icon="'bi-arrow-left-right'" :title="'Approval Petugas'" :route="'approval-tugas.index'" :route-is="'approval.*'" />
-                            <x-sidebar-list-item :icon="'bi-box'" :title="'Aset'" :route="'aset.index'" :route-is="'aset.*'" />
-                        @endif
-                        @if (Auth::user()->roles == 'pegawai')
-                            <x-sidebar-list-item :icon="'bi-grid'" :title="'Dashboard'" :route="'home'" :route-is="'home'" />
-                            <x-sidebar-list-item :icon="'bi-inbox'" :title="'Penugasan'" :route="'penugasan.index'" :route-is="'penugasan.*'" />
-                            <x-sidebar-list-item :icon="'bi-pause-circle'" :title="'Izin'" :route="'izin.index'" :route-is="'izin.*'" />
-                        @endif
+                        <x-sidebar-list-item :icon="'bi-inbox'" :title="'Project'" :route="'project.index'" :route-is="'project.*'" />
+                        <x-sidebar-list-item :icon="'bi-people'" :title="'Users'" :route="'users.index'" :route-is="'users.*'" />
                     </ul>
                     <div>
                         <hr>

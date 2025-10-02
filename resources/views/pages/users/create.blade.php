@@ -42,26 +42,6 @@
                 @enderror
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Telepon</label>
-                <input type="number" class="form-control" name="telepon" placeholder="Telepon..." value="{{ old('telepon') }}">
-                @error('telepon')
-                    <div class="text-danger small mt-1">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="mb-4">
-                <label class="form-label">Role</label>
-                <select class="form-select" name="roles" required>
-                    <option value="">Pilih Role...</option>
-                    <option value="admin" {{ old('roles') == 'admin' ? 'selected' : '' }}>Admin</option>
-                    <option value="pegawai" {{ old('roles') == 'pegawai' ? 'selected' : '' }}>Pegawai</option>
-                </select>
-                @error('roles')
-                    <div class="text-danger small mt-1">{{ $message }}</div>
-                @enderror
-            </div>
-
             <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-dark">Simpan</button>
             </div>

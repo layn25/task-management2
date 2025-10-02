@@ -47,7 +47,7 @@
     </div>
     <div class="card-body">
         <div class="row mb-3">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="position-relative">
                     <input type="text" class="form-control" id="searchInput" placeholder="Nama User..."
                         style="padding-right: 40px;">
@@ -56,13 +56,6 @@
                     </button>
                 </div>
             </div>
-            <div class="col-md-4">
-                <select class="form-select" id="rolesFilter" aria-label="Roles filter">
-                    <option value="">Semua</option>
-                    <option value="Admin">Admin</option>
-                    <option value="Pegawai">Pegawai</option>
-                </select>
-            </div>
         </div>
         <table id="usersDataTable" class="table table-striped table-hover">
             <thead>
@@ -70,8 +63,7 @@
                 <th>#</th>
                 <th>Nama</th>
                 <th>Email</th>
-                <th>Telepon</th>
-                <th>Roles</th>
+
                 <th>Action</th>
             </tr>
             </thead>
@@ -81,14 +73,6 @@
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $p->nama }}</td>
                         <td>{{ $p->email }}</td>
-                        <td>{{ $p->telepon ?? 'Tidak ada' }}</td>
-                        <td>
-                            @if($p->roles === 'pegawai')
-                                <span class="badge bg-success">Pegawai</span>
-                            @elseif($p->roles === 'admin')
-                                <span class="badge bg-primary">Admin</span>
-                            @endif
-                        </td>
                         <td>
                             <div class="dropdown">
                                 <button class="btn btn-link text-muted" type="button" data-bs-toggle="dropdown" aria-expanded="false">

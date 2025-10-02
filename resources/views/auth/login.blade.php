@@ -3,21 +3,10 @@
 @section('content')
 <div class="auth-container">
     <div class="row g-0 min-vh-100">
-        <!-- Left Column - Image and Title -->
-        <div class="col-lg-6 auth-left">
-            <div class="login-image-container">
-                <div class="image-placeholder">
-                    <img src="{{ asset('images/banner-auth.jpg') }}" alt="Banner" class="login-banner-image">
-                </div>
-                <div class="auth-title-section">
-                    <h1 class="auth-main-title">Sistem Pengelolaan Penugasan dan Aset</h1>
-                    <p class="auth-subtitle">Pelayanan Informasi Publik Dinas Komunikasi dan Informasi Kabupaten Badung</p>
-                </div>
-            </div>
-        </div>
+        
 
         <!-- Right Column - Login Form -->
-        <div class="col-lg-6 login-right">
+        <div class="col-lg-12 login-right">
             <div class="auth-form-container">
                 <div class="auth-form-wrapper">
                     <h2 class="auth-form-title">LOGIN</h2>

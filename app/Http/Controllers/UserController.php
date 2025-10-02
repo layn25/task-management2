@@ -26,16 +26,12 @@ class UserController extends Controller
                 'nama'=> 'required|string|max:255',
                 'email' => 'required|email|unique:users,email',
                 'password'=> 'required|string|min:8|max:12',
-                'telepon'=> 'nullable|string|max:16',
-                'roles'=> 'required|in:admin,pegawai',
             ]);
 
             $data = new User();
             $data->nama = $request->nama;  
             $data->email = $request->email;
             $data->password = $request->password;
-            $data->telepon = $request->telepon;
-            $data->roles = $request->roles;
             $data->save();
 
             return redirect()->back()->with('success', 'User berhasil ditambahkan!');
@@ -59,23 +55,18 @@ class UserController extends Controller
                     'nama' => 'required|string|max:255',
                     'email' => 'required|email',
                     'password' => 'nullable|string|min:8|max:12',
-                    'telepon' => 'nullable|string|max:16',
-                    'roles' => 'required|in:admin,pegawai',
                 ]);
             } else {
                 $request->validate([
                     'nama' => 'required|string|max:255',
                     'email' => 'required|email|unique:users,email',
                     'password' => 'nullable|string|min:8|max:12',
-                    'telepon' => 'nullable|string|max:16',
-                    'roles' => 'required|in:admin,pegawai',
                 ]);
             }
 
             $data->nama = $request->nama;
             $data->email = $request->email;
-            $data->telepon = $request->telepon;
-            $data->roles = $request->roles;
+
 
             if ($request->filled('password')) {
                 $data->password = $request->password;
@@ -90,8 +81,8 @@ class UserController extends Controller
     }
     public function delete($id)
     {
-        $barang = User::findOrFail($id);
-        $barang->delete();
+        $data = User::findOrFail($id);
+        $data->delete();
 
         return redirect()->back()->with('success', 'user berhasil dihapus!');
     }

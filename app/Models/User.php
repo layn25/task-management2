@@ -12,7 +12,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, Uuid;
+    use HasFactory, Notifiable;
 
     public $incrementing = false;
     protected $keyType = 'string';
@@ -26,8 +26,6 @@ class User extends Authenticatable
         'nama',
         'email',
         'password',
-        'telepon',
-        'roles',
     ];
 
     /**
@@ -53,12 +51,13 @@ class User extends Authenticatable
         ];
     }
 
-    public function Penugasan()
+    public function Project()
     {
-        return $this->hasMany(Penugasan::class, 'user_id', 'id');
+        return $this->hasMany(Project::class, 'owner_id', 'id');
     }
-    public function Izin()
+    public function Assignee()
     {
-        return $this->hasMany(Izin::class, 'user_id', 'id');
+        return $this->hasMany(Task::class, 'assignee_id', 'id');
     }
+
 }

@@ -11,13 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('projects', function (Blueprint $table) {
-            $table->id('project_id'); 
-            $table->string('name', 150);
+        Schema::create('tasks', function (Blueprint $table) {
+            $table->id('task_id'); 
+            $table->foreignId('project_id')->constrained('projects', 'project_id') ->cascadeOnDelete();
+            $table->string('title', 200);
             $table->text('description')->nullable();
+            $table->enum('status', ['todo', 'in_progress', 'review', 'done'])->default('todo');
+            $table->enum('priority', ['low','medium','high','urgent'])->default('low');
             $table->date('start_date');
             $table->date('end_date');
-            $table->foreignId('owner_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('assignee_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('reporter_id')->constrained('users')->cascadeOnDelete();
+            $table->tinyInteger('percentage')->unsigned()->default(0);
             $table->foreignId('staff_created')->constrained('users')->cascadeOnDelete();
             $table->foreignId('staff_updated')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
@@ -30,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('tasks');
     }
 };
